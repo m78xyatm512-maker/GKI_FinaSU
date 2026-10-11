@@ -633,15 +633,7 @@ jobs:
               fi
               echo "FinaSU 自动识别最新 Release: $FINASU_REF"
               git -C KernelSU checkout "$FINASU_REF"
-              # 兼容性检查：自 v0.1.0-preview1 起，FinaSU 的 selinux_hide.c 换成了 tiann 新形态
-              # （移除 fake_state、_with_policy 改 8 参），与当前 simonpunk SUSFS 集成不兼容；
-              # 检出新形态时回退到已知可用版本 v0.1.0-beta5。
-              if ! grep -q 'fake_state' KernelSU/kernel/feature/selinux_hide.c 2>/dev/null; then
-                echo "::warning::FinaSU $FINASU_REF 的 selinux_hide.c 与当前 SUSFS 集成不兼容，回退到 v0.1.0-beta5"
-                FINASU_REF="v0.1.0-beta5"
-                git -C KernelSU checkout "$FINASU_REF"
-              fi
-              echo "FinaSU 最终引用: $FINASU_REF @$(git -C KernelSU rev-parse --short HEAD)"
+              echo "FinaSU 引用: $FINASU_REF @$(git -C KernelSU rev-parse --short HEAD)"
               # 注入 FinaSU 管理器签名（第二签名槽，与 FinaSU 上游 build.sh 的做法一致）：
               # 内核槽1 默认信任官方 KernelSU 证书(0x033b / c371...d2d6)，槽2 用于附加一个受信任证书。
               # 本仓库随包发布的是 FinaSU 管理器(签名证书沿用上游未变的 keystore)，只有把槽2 指向它并标记为发布密钥，
