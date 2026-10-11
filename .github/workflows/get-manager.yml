@@ -93,6 +93,7 @@ jobs:
             fi
             echo "FinaSU 自动识别最新 Release: $FINASU_REF"
             git -C KernelSU checkout "$FINASU_REF"
+            echo "FinaSU 引用: $FINASU_REF @$(git -C KernelSU rev-parse --short HEAD)"
           elif [ "${{ inputs.kernelsu_variant }}" == "Official" ]; then
             echo "This is the Official"
             git clone https://github.com/tiann/KernelSU.git KernelSU

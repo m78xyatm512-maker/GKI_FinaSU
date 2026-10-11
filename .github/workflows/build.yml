@@ -633,6 +633,7 @@ jobs:
               fi
               echo "FinaSU 自动识别最新 Release: $FINASU_REF"
               git -C KernelSU checkout "$FINASU_REF"
+              echo "FinaSU 引用: $FINASU_REF @$(git -C KernelSU rev-parse --short HEAD)"
               # 注入 FinaSU 管理器签名（第二签名槽，与 FinaSU 上游 build.sh 的做法一致）：
               # 内核槽1 默认信任官方 KernelSU 证书(0x033b / c371...d2d6)，槽2 用于附加一个受信任证书。
               # 本仓库随包发布的是 FinaSU 管理器(签名证书沿用上游未变的 keystore)，只有把槽2 指向它并标记为发布密钥，
