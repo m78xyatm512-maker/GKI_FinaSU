@@ -233,6 +233,12 @@ ccflags-y += -Wno-error=unused-variable -Wno-error=unused-function -Wno-error=un
 KSU_KBUILD_EOF
   fi
 
+  # selinux_hide 形态检测：新形态（preview1+ 无 fake_state）需跳过 fake_state 校验
+  NEW_MODEL=0
+  if [ -f "$FINASU_SELINUX_HIDE" ] && ! grep -q 'fake_state' "$FINASU_SELINUX_HIDE"; then
+    NEW_MODEL=1
+  fi
+
   # 结果校验，防止上游代码结构变化后静默失效
   if ! grep -q 'susfs_init();' "$FINASU_INIT" \
     || ! grep -q 'ksu_sucompat_init();' "$FINASU_INIT" \
